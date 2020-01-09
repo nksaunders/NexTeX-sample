@@ -1,0 +1,29 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    name: Build the paper
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: goanpeca/setup-miniconda@v1
+        with:
+           activate-environment: nextex
+           environment-file: environment.yml
+           python-version: 3.7
+      - name: Compile the paper
+        shell: bash -l {0}
+        run: cd tex && make
+      - name: Upload the paper
+        env:
+          GITHUB_USER: ${{ secrets.GITHUB_USER }}
+          GITHUB_API_KEY: ${{ secrets.GITHUB_API_KEY }}
+        run: |
+          git checkout --orphan master-pdf
+          git rm -rf --cached .
+          mv tex/ms.pdf .
+          git add -f ms.pdf
+          git -c user.name='actions' -c user.email='actions' commit -m "building the paper"
+          git push -q -f https://$(GITHUB_USER):$(GITHUB_API_KEY)@github.com/nextex-devs/NexTeX master-pdf >/dev/null 2>&1

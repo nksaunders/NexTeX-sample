@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+
+CONFIG="install.conf.yaml"
+NEXTEX_DIR="nextex.cls"
+
+NEXTEX_BIN="bin/nextex"
+BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+cd "${BASEDIR}"
+git submodule sync
+git submodule update --init --recursive "${NEXTEX_DIR}"
+
+"${BASEDIR}/${NEXTEX_DIR}/${NEXTEX_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"

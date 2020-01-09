@@ -1,0 +1,11 @@
+name: autoenv
+dependencies:
+  - jupyter=1.0.0=py37_7
+  - jupyter_client=5.2.4=py37_0
+  - jupyter_console=6.0.0=py37_0
+  - jupyter_core=4.4.0=py37_0
+  - nbconvert=5.3.1=py37_0
+  - nbformat=4.4.0=py37_0
+  - pip=18.1=py37_0
+  - pip:
+    - lightkurve==1.2.0
